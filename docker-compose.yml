@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.nodejs
+    container_name: app
+    tty: true
+    networks:
+      - node-network
+    depends_on:
+      - nginx
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    container_name: nginx
+    tty: true
+    ports:
+      - "3001:3001"
+    networks:
+      - node-network
+  db:
+    image: mysql
+    container_name: db
+    command: --innodb-use-native-aio=0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: app
+    volumes:
+      - ./db:/var/lib/mysql
+    restart: always
+    tty: true
+    ports:
+      - "3306:3306"
+    networks:
+      - node-network
+  
+networks:
+  node-network:
+    driver: bridge
