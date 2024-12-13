@@ -30,6 +30,7 @@ services:
       MYSQL_DATABASE: app
     volumes:
       - ./db:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     restart: always
     tty: true
     ports:
