@@ -8,7 +8,7 @@ services:
     container_name: app
     working_dir: /app
     volumes:
-      - ./app:/app_reserved
+      - ./app:/app
     tty: true
     networks:
       - node-network
